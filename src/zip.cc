@@ -144,6 +144,12 @@ namespace zip {
 
 bool Zip(const std::string& src_dir, const std::string& dest_file,
          std::string* error) {
+  if (!utils::DirectoryExists(src_dir)) {
+    if (error)
+      *error = "Dir " + src_dir + " is not existent.";
+    return false;
+  }
+
   zipFile zip_file = internal::OpenForZipping(dest_file.c_str(),
                                               APPEND_STATUS_CREATE);
   if (!zip_file) {
