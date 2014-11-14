@@ -5,6 +5,7 @@
 #include "zip.h"
 
 #include <cstdio>
+#include <cstring>
 #include <vector>
 
 #include "zlib/contrib/minizip/zip.h"

@@ -3,9 +3,11 @@
 // found in the LICENSE file.
 
 #include "zip_internal.h"
-#include <algorithm>
 
+#include <algorithm>
+#include <cstdio>
 #include <cstdlib>
+#include <cstring>
 
 #if defined(USE_SYSTEM_MINIZIP)
 #include <minizip/ioapi.h>

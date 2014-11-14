@@ -4,6 +4,7 @@
 
 #include "zip_reader.h"
 
+#include <cstdio>
 #include <vector>
 
 #include "zip_internal.h"
