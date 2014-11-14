@@ -31,6 +31,12 @@
             'OS_POSIX',
           ],
         }],
+        ['OS=="linux"', {
+          'cflags':[
+            # Don't warn about the "struct foo f = {0};" initialization pattern.
+            '-Wno-missing-field-initializers',
+          ],
+        }],
       ],
     },
   ]
