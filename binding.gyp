@@ -15,7 +15,7 @@
         'src/zip_utils.cc',
         'src/zip_utils.h',
       ],
-      'dependencies': [ 'deps/zlib/zlib.gyp:minizip' ],
+      'dependencies': [ 'deps/zlib/zlib.gyp:zlib' ],
       'include_dirs': [
         'deps/',
         '<!(node -e "require(\'nan\')")'

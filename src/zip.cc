@@ -103,11 +103,7 @@ bool AddEntryToZip(zipFile zip_file, const std::string& root_path,
       parent_path + "/" + relative_path);
   GetFileInfoForZipping(absolute_path, &file_info);
 
-  // Section 4.4.4 http://www.pkware.com/documents/casestudies/APPNOTE.TXT
-  // Setting the Language encoding flag so the file is told to be in utf-8.
-  const uLong LANGUAGE_ENCODING_FLAG = 0x1 << 11;
-
-  if (ZIP_OK != zipOpenNewFileInZip4(
+  if (ZIP_OK != zipOpenNewFileInZip3(
                     zip_file,  // file
                     relative_path.c_str(),  // relative filename
                     &file_info,  // zipfi
@@ -123,9 +119,7 @@ bool AddEntryToZip(zipFile zip_file, const std::string& root_path,
                     DEF_MEM_LEVEL,  // memLevel
                     Z_DEFAULT_STRATEGY,  // strategy
                     NULL,  // password
-                    0,  // crcForCrypting
-                    0,  // versionMadeBy
-                    LANGUAGE_ENCODING_FLAG)) {  // flagBase
+                    0)) {  // crcForCrypting
     return false;
   }
 
