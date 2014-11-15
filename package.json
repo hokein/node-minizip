@@ -1,6 +1,6 @@
 {
   "name": "node-minizip",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A node.js addon binding Minizip for handling zip files.",
   "keywords": ["zip", "minizip", "zlib", "unzip"],
   "main": "main.js",
