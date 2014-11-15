@@ -12,7 +12,7 @@ namespace utils {
 
 std::string RemoveExtraFileSeparator(const std::string& file_path);
 
-bool CreateDirectory(const std::string& file_path);
+bool CreateDir(const std::string& file_path);
 
 bool DirectoryExists(const std::string& file_path);
 

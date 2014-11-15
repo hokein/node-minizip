@@ -24,6 +24,8 @@
         ['OS=="win"', {
           'defines': [
             'OS_WIN',
+            # _HAS_EXCEPTIONS must match ExceptionHandling in msvs_settings.
+            '_HAS_EXCEPTIONS=0',
           ],
         }],
         ['OS=="mac" or OS=="linux"', {

@@ -5,6 +5,11 @@
 #ifndef SRC_ZIP_INTERNAL_H_
 #define SRC_ZIP_INTERNAL_H_
 
+// Disable min macro in WinDef.h
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
 #if defined(OS_WIN)
 #include <windows.h>
 #endif

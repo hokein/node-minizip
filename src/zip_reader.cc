@@ -19,6 +19,19 @@ namespace {
 void UpdateFileTime(const std::string& file_path,
                     uLong dosdate,
                     tm_unz tmu_date) {
+#if defined(OS_WIN)
+  FILETIME ftm, ftLocal, ftCreate, ftLastAcc, ftLastWrite;
+  HANDLE handle = CreateFileA(file_path.c_str(), GENERIC_READ | GENERIC_WRITE,
+      0, NULL, OPEN_EXISTING, 0, NULL);
+  GetFileTime(handle, &ftCreate, &ftLastAcc, &ftLastWrite);
+  DosDateTimeToFileTime(static_cast<WORD>(dosdate >> 16),
+                        static_cast<WORD>(dosdate),
+                        &ftLocal);
+  LocalFileTimeToFileTime(&ftLocal, &ftm);
+  SetFileTime(handle, &ftm, &ftLastAcc, &ftm);
+  CloseHandle(handle);
+  return;
+#elif defined(OS_POSIX)
   struct utimbuf ut;
   struct tm date;
   date.tm_sec = tmu_date.tm_sec;
@@ -34,6 +47,7 @@ void UpdateFileTime(const std::string& file_path,
 
   ut.actime = ut.modtime = mktime(&date);
   utime(file_path.c_str(), &ut);
+#endif
 }
 
 }  // namespace
@@ -105,7 +119,7 @@ bool ZipReader::OpenCurrentEntryInZip() {
 bool ZipReader::ExtractCurrentEntryIntoDirectory(
     const std::string& output_directory_path) {
   if (!utils::DirectoryExists(output_directory_path))
-    if (!utils::CreateDirectory(output_directory_path))
+    if (!utils::CreateDir(output_directory_path))
       return false;
   const std::string output_file_path = output_directory_path + "/" +
       current_entry_info()->file_path;
@@ -117,10 +131,10 @@ bool ZipReader::ExtractCurrentEntryToFilePath(
   std::string absolute_path = utils::RemoveExtraFileSeparator(output_file_path);
   // If this is a directory, just create it and return.
   if (current_entry_info()->is_directory)
-    return utils::CreateDirectory(absolute_path);
+    return utils::CreateDir(absolute_path);
   // Make sure the parent directory is created.
   // The absolute_path is guaranteed valid(must has at lease '/').
-  if (!utils::CreateDirectory(
+  if (!utils::CreateDir(
       absolute_path.substr(0, absolute_path.find_last_of('/'))))
     return false;
 

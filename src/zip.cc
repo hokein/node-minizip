@@ -4,6 +4,7 @@
 
 #include "zip.h"
 
+#include <algorithm>
 #include <cstdio>
 #include <cstring>
 #include <vector>
@@ -29,8 +30,30 @@ namespace {
 std::vector<std::string> GetAllFilesFromDirectory(
     const std::string& root_path, const std::string& relative_path) {
   std::string absolute_path = root_path + "/" + relative_path;
-  DIR* dir = opendir(absolute_path.c_str());
   std::vector<std::string> files;
+#if defined(OS_WIN)
+  WIN32_FIND_DATA fd;
+  HANDLE hFind = ::FindFirstFile((absolute_path + "/*").c_str(), &fd);
+  if (hFind != INVALID_HANDLE_VALUE) {
+    do {
+      std::string entry_relative_file_path;
+      if (relative_path.empty())
+        entry_relative_file_path = std::string(fd.cFileName);
+      else
+        entry_relative_file_path = relative_path + "/" +
+            std::string(fd.cFileName);
+      if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+        files.push_back(entry_relative_file_path);
+      } else if (fd.cFileName[0] != '.') { // skip "." and ".." directory.
+        std::vector<std::string> sub_files = GetAllFilesFromDirectory(
+            absolute_path, entry_relative_file_path);
+        files.insert(files.end(), sub_files.begin(), sub_files.end());
+      }
+    } while(::FindNextFile(hFind, &fd));
+    ::FindClose(hFind);
+  }
+#elif defined(OS_POSIX)
+  DIR* dir = opendir(absolute_path.c_str());
   if (dir != NULL) {
     struct dirent* entry;
     while((entry = readdir(dir))) {
@@ -53,12 +76,26 @@ std::vector<std::string> GetAllFilesFromDirectory(
       }
     }
   }
+#endif
   return files;
 }
 
 //Returns a zip_fileinfo with the last modification date of |path| set.
 bool GetFileInfoForZipping(const std::string& path, zip_fileinfo* zip_info) {
-#ifdef OS_POSIX
+#if defined(OS_WIN)
+  FILETIME file_time;
+  HANDLE file_handle;
+  WIN32_FIND_DATAA find_data;
+
+  file_handle = FindFirstFileA(path.c_str(), &find_data);
+  if (file_handle != INVALID_HANDLE_VALUE) {
+    FileTimeToLocalFileTime(&(find_data.ftLastWriteTime), &file_time);
+    FileTimeToDosDateTime(&file_time,
+                          (LPWORD)(&zip_info->dosDate) + 1,
+                          (LPWORD)(&zip_info->dosDate) + 0);
+    FindClose(file_handle);
+  }
+#elif defined(OS_POSIX)
   struct stat s;
   if (stat(path.c_str(), &s) == 0) {
     struct tm* file_date = localtime(&s.st_mtime);
