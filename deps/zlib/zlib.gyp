@@ -63,6 +63,19 @@
                 'contrib/minizip/iowin32.c'
               ],
             }],
+            ['OS=="mac"', {
+              'xcode_settings': {
+                'WARNING_CFLAGS': [
+                  # zlib uses `if ((a == b))` for some reason.
+                  '-Wno-parentheses-equality',
+                  '-Wno-unused-function',
+                ],
+              },
+              'cflags': [
+                '-Wno-parentheses-equality',
+                '-Wno-unused-function',
+              ],
+            }],
           ],
         },
       ],
