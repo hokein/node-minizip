@@ -11,24 +11,24 @@
 
 namespace zip {
 
-class ZipAsyncWorker : public NanAsyncWorker {
+class ZipAsyncWorker : public Nan::AsyncWorker {
  public:
   ZipAsyncWorker(const std::string& src_dir, const std::string& dest_file,
-      NanCallback* callback);
+      Nan::Callback* callback);
 
-  // Override NanAsyncWorker methods.
+  // Override Nan::AsyncWorker methods.
   virtual void Execute();
  private:
   const std::string src_dir_;
   const std::string dest_file_;
 };
 
-class UnzipAsyncWorker : public NanAsyncWorker {
+class UnzipAsyncWorker : public Nan::AsyncWorker {
  public:
   UnzipAsyncWorker(const std::string& zip_file, const std::string& dest_dir,
-      NanCallback* callback);
+      Nan::Callback* callback);
 
-  // Override NanAsyncWorker methods.
+  // Override Nan::AsyncWorker methods.
   virtual void Execute();
  private:
   const std::string zip_file_;

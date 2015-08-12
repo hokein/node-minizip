@@ -10,8 +10,8 @@ namespace zip {
 
 ZipAsyncWorker::ZipAsyncWorker(const std::string& src_dir,
                                const std::string& dest_file,
-                               NanCallback* callback):
-     NanAsyncWorker(callback), src_dir_(src_dir), dest_file_(dest_file) {
+                               Nan::Callback* callback):
+     Nan::AsyncWorker(callback), src_dir_(src_dir), dest_file_(dest_file) {
 }
 
 void ZipAsyncWorker::Execute() {
@@ -22,8 +22,8 @@ void ZipAsyncWorker::Execute() {
 
 UnzipAsyncWorker::UnzipAsyncWorker(const std::string& zip_file,
                                    const std::string& dest_dir,
-                                   NanCallback* callback):
-     NanAsyncWorker(callback), zip_file_(zip_file), dest_dir_(dest_dir) {
+                                   Nan::Callback* callback):
+     Nan::AsyncWorker(callback), zip_file_(zip_file), dest_dir_(dest_dir) {
 }
 
 void UnzipAsyncWorker::Execute() {
