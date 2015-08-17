@@ -33,14 +33,6 @@
   },
   "gypfile": true,
   "homepage": "https://github.com/hokein/node-minizip",
-  "_id": "node-minizip@0.1.0",
-  "_shasum": "f4eccd07bd590fd5de061fc42886002b0decef05",
-  "_from": "node-minizip@*",
-  "_npmVersion": "1.4.9",
-  "_npmUser": {
-    "name": "hokein",
-    "email": "hokein.wu@gmail.com"
-  },
   "maintainers": [
     {
       "name": "hokein",
