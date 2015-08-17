@@ -7,18 +7,13 @@
 
 namespace {
 
-#define THROW_BAD_ARGS(msg)    \
-    do {                       \
-       Nan::ThrowTypeError(msg); \
-       info.GetReturnValue().Set(Nan::Undefined()); \
-    } while(0);
-
 NAN_METHOD(Zip) {
   Nan::HandleScope scope;
 
   if (info.Length() < 3 || !info[0]->IsString() || !info[1]->IsString() ||
       !info[2]->IsFunction()) {
-    THROW_BAD_ARGS("Bad arguments");
+    Nan::ThrowTypeError("Bad arguments");
+    return;
   }
 
   std::string src_dir(*(v8::String::Utf8Value(info[0])));
@@ -35,7 +30,8 @@ NAN_METHOD(Unzip) {
 
   if (info.Length() < 3 || !info[0]->IsString() || !info[1]->IsString() ||
       !info[2]->IsFunction()) {
-    THROW_BAD_ARGS("Bad arguments");
+    Nan::ThrowTypeError("Bad arguments");
+    return;
   }
 
   std::string zip_file(*(v8::String::Utf8Value(info[0])));
@@ -50,18 +46,11 @@ NAN_METHOD(Unzip) {
 
 }  // namespace
 
-// void init(v8::Handle<v8::Object> exports) {
-//   exports->Set(Nan::New("zip"),
-//                Nan::New<v8::FunctionTemplate>(Zip)->GetFunction());
-//   exports->Set(Nan::New("unzip"),
-//                Nan::New<v8::FunctionTemplate>(Unzip)->GetFunction());
-// }
-
 NAN_MODULE_INIT(init) {
-	Nan::Set(target, Nan::New("zip").ToLocalChecked(),
-	               Nan::New<v8::FunctionTemplate>(Zip)->GetFunction());
-	Nan::Set(target, Nan::New("unzip").ToLocalChecked(),
-	               Nan::New<v8::FunctionTemplate>(Unzip)->GetFunction());
+  Nan::Set(target, Nan::New("zip").ToLocalChecked(),
+                 Nan::New<v8::FunctionTemplate>(Zip)->GetFunction());
+  Nan::Set(target, Nan::New("unzip").ToLocalChecked(),
+                 Nan::New<v8::FunctionTemplate>(Unzip)->GetFunction());
 }
 
 NODE_MODULE(node_minizip, init)
