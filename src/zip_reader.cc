@@ -54,6 +54,11 @@ void UpdateFileTime(const std::string& file_path,
 
 namespace zip {
 
+ZipReader::~ZipReader() {
+  if (zip_file_)
+    unzClose(zip_file_);
+}
+  
 ZipReader::EntryInfo::EntryInfo(const std::string& file_name_in_zip,
                                 const unz_file_info& file_info)
     : file_path(file_name_in_zip), raw_file_info(file_info),
