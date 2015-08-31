@@ -14,7 +14,7 @@ namespace zip {
 class ZipReader {
  public:
   ZipReader() {}
-  ~ZipReader() {}
+  ~ZipReader();
 
   // This class represents information of an entry (file or directory) in
   // a zip file.
