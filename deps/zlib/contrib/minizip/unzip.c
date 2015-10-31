@@ -41,7 +41,7 @@ woven in by Terry Thorsen 1/2003.
 #if defined(USE_SYSTEM_ZLIB)
 #include <zlib.h>
 #else
-#include "zlib.h"
+#include "../../zlib.h"
 #endif
 #include "unzip.h"
 
