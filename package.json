@@ -29,7 +29,8 @@
     "mocha": "1.21.4"
   },
   "scripts": {
-    "install": "node-gyp rebuild"
+    "install": "node-gyp rebuild",
+    "test": "mocha test/test.js"
   },
   "gypfile": true,
   "homepage": "https://github.com/hokein/node-minizip",
