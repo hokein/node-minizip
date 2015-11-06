@@ -115,13 +115,14 @@ bool AddFileToZip(zipFile zip_file, const std::string& absolute_path) {
   FILE* file = fopen(absolute_path.c_str(), "rb");
   if (!file)
     return false;
-  int num_bytes;
+  size_t num_bytes;
   char buf[zip::internal::kZipBufSize];
 
   do {
     num_bytes = fread(buf, sizeof(char), zip::internal::kZipBufSize, file);
     if (num_bytes > 0) {
-      if (ZIP_OK != zipWriteInFileInZip(zip_file, buf, num_bytes))
+      if (ZIP_OK != zipWriteInFileInZip(
+          zip_file, buf, static_cast<unsigned int>(num_bytes)))
         return false;
     }
   } while (num_bytes > 0);
