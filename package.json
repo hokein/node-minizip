@@ -1,6 +1,6 @@
 {
   "name": "node-minizip",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A node.js addon binding Minizip for handling zip files.",
   "keywords": [
     "zip",
@@ -44,11 +44,5 @@
       "name": "imskull",
       "email": "imskull@gmail.com"
     }
-  ],
-  "dist": {
-    "shasum": "f4eccd07bd590fd5de061fc42886002b0decef05",
-    "tarball": "http://registry.npmjs.org/node-minizip/-/node-minizip-0.1.0.tgz"
-  },
-  "directories": {},
-  "_resolved": "https://registry.npmjs.org/node-minizip/-/node-minizip-0.1.0.tgz"
+  ]
 }
