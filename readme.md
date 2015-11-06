@@ -1,6 +1,8 @@
 #node-minizip
 
 [![Build Status](https://travis-ci.org/hokein/node-minizip.svg?branch=travis-ci)](https://travis-ci.org/hokein/node-minizip)
+[![Dependency Status](https://david-dm.org/hokein/node-minizip.svg)](https://david-dm.org/hokein/node-minizip)
+[![npm version](https://img.shields.io/npm/v/node-minizip.svg)](https://www.npmjs.com/package/node-minizip)
 
 node-minizip is a node.js addon binding [Minizip](http://www.winimage.com/zLibDll/minizip.html) for handling zip files.
 
