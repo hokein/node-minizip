@@ -121,18 +121,23 @@ bool ZipReader::OpenCurrentEntryInZip() {
   return true;
 }
 
+bool ZipReader::ExtractCurrentEntryIntoDirectory(const std::string& output_directory_path) {
+    return ExtractCurrentEntryIntoDirectory(output_directory_path, "");
+}
+
 bool ZipReader::ExtractCurrentEntryIntoDirectory(
-    const std::string& output_directory_path) {
+    const std::string& output_directory_path,
+    const std::string& password) {
+
   if (!utils::DirectoryExists(output_directory_path))
     if (!utils::CreateDir(output_directory_path))
       return false;
   const std::string output_file_path = output_directory_path + "/" +
       current_entry_info()->file_path;
-  return ExtractCurrentEntryToFilePath(output_file_path);
+  return ExtractCurrentEntryToFilePath(output_file_path, password);
 }
 
-bool ZipReader::ExtractCurrentEntryToFilePath(
-    const std::string& output_file_path) {
+bool ZipReader::ExtractCurrentEntryToFilePath(const std::string& output_file_path, const std::string& password) {
   std::string absolute_path = utils::RemoveExtraFileSeparator(output_file_path);
   // If this is a directory, just create it and return.
   if (current_entry_info()->is_directory)
@@ -143,10 +148,16 @@ bool ZipReader::ExtractCurrentEntryToFilePath(
       absolute_path.substr(0, absolute_path.find_last_of('/'))))
     return false;
 
-  const int open_result = unzOpenCurrentFile(zip_file_);
-  if (open_result != UNZ_OK)
+  int open_result = UNZ_OK;
+  if(password.size() > 0){
+    open_result = unzOpenCurrentFilePassword(zip_file_, password.c_str());
+  } else {
+    open_result = unzOpenCurrentFile(zip_file_);
+  }
+  if (open_result != UNZ_OK){
     return false;
-
+  }
+  
   FILE* file = fopen(output_file_path.c_str(), "wb");
   if (!file)
     return false;

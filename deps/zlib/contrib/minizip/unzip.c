@@ -69,7 +69,8 @@
 #include <string.h>
 
 #ifndef NOUNCRYPT
-        #define NOUNCRYPT
+        //Uncomment to disable encryption
+        //#define NOUNCRYPT
 #endif
 
 #include "../../zlib.h"

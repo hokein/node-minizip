@@ -50,10 +50,10 @@ class ZipReader {
   //
   // This function preserves the timestamp of the original entry. If that
   // timestamp is not valid, the timestamp will be set to the current time.
-  bool ExtractCurrentEntryIntoDirectory(
-      const std::string& output_directory_path);
+  bool ExtractCurrentEntryIntoDirectory(const std::string& output_directory_path);
+  bool ExtractCurrentEntryIntoDirectory(const std::string& output_directory_path, const std::string& password);
 
-  bool ExtractCurrentEntryToFilePath(const std::string& output_file_path);
+  bool ExtractCurrentEntryToFilePath(const std::string& output_file_path, const std::string& password);
 
   EntryInfo* current_entry_info() { return &current_entry_info_; }
 
