@@ -1,4 +1,4 @@
-#node-minizip
+# node-minizip
 
 [![Build Status](https://travis-ci.org/hokein/node-minizip.svg?branch=travis-ci)](https://travis-ci.org/hokein/node-minizip)
 [![Dependency Status](https://david-dm.org/hokein/node-minizip.svg)](https://david-dm.org/hokein/node-minizip)
@@ -33,13 +33,13 @@ Minizip.unzip('path/to/name.zip', 'dest/dir', function(err) {
 
 ## APIs
 
-###Minizip.zip(src_dir, dest_file, callback)
+### Minizip.zip(src_dir, dest_file, callback)
 
 * `src_dir` String
 * `dest_file` String
 * `callback` Function(err)
 
-###Minizip.unzip(zip_file, unzip_dir, callback)
+### Minizip.unzip(zip_file, unzip_dir, callback)
 
 * `zip_file` String
 * `unzip_dir` String
